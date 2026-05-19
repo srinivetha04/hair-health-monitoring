@@ -7,7 +7,7 @@ import random
 app = Flask(__name__)
 app.secret_key = "secret123"
 
-# ---------------- MYSQL CONFIG ----------------
+
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
@@ -15,20 +15,20 @@ app.config['MYSQL_DB'] = 'hair_db'
 
 mysql = MySQL(app)
 
-# ---------------- UPLOAD FOLDER ----------------
+
 UPLOAD_FOLDER = os.path.join("static", "uploads")
 IMAGE_FOLDER = os.path.join("static", "images")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(IMAGE_FOLDER, exist_ok=True)
 
-# ---------------- ROUTES ----------------
+
 
 @app.route('/')
 def welcome():
     return render_template('welcome.html')
 
 
-# 🔥 LOGIN WITH DB SAVE
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -38,11 +38,11 @@ def login():
 
         cur = mysql.connection.cursor()
 
-        # check user exists
+        
         cur.execute("SELECT * FROM users WHERE username=%s", (username,))
         user = cur.fetchone()
 
-        # insert if new
+        
         if not user:
             cur.execute("INSERT INTO users (username) VALUES (%s)", (username,))
             mysql.connection.commit()
@@ -86,7 +86,7 @@ def analyze():
     image_data = request.form.get("captured_image")
     upload_image = request.files.get("upload_image")
 
-    # ---------------- IMAGE SAVE ----------------
+    
     if image_data:
         image_data = image_data.split(",")[1]
         image_bytes = base64.b64decode(image_data)
@@ -109,10 +109,10 @@ def analyze():
     else:
         return "No Image Provided"
 
-    # ---------------- SCORE LOGIC ----------------
+    
     cur = mysql.connection.cursor()
 
-    # 🔥 CHECK EXISTING USER SCORE
+   
     cur.execute("""
         SELECT score, health_status 
         FROM results 
@@ -123,7 +123,7 @@ def analyze():
     existing = cur.fetchone()
 
     if existing:
-        # ✅ SAME SCORE REUSE
+        
         score = existing[0]
         health_status = existing[1]
 
@@ -137,7 +137,7 @@ def analyze():
             issues = ["No Major Issues"]
 
     else:
-        # 🆕 NEW USER → GENERATE
+       
         rand = random.randint(1, 100)
 
         if rand <= 40:
@@ -155,7 +155,7 @@ def analyze():
             health_status = "Healthy Hair"
             issues = ["No Major Issues"]
 
-    # ---------------- SAVE NEW RECORD ----------------
+    
     cur.execute("""
         INSERT INTO results (username, score, health_status, issues, image_path)
         VALUES (%s, %s, %s, %s, %s)
@@ -170,7 +170,7 @@ def analyze():
     mysql.connection.commit()
     cur.close()
 
-    # ---------------- SESSION ----------------
+    
     session["score"] = score
     session["issues"] = issues
     session["health_status"] = health_status
@@ -179,7 +179,7 @@ def analyze():
     return redirect("/loading")
 
 
-# ---------------- RESULT PAGE ----------------
+
 
 @app.route("/result")
 def result():
@@ -193,7 +193,7 @@ def result():
     issues = session.get("issues")
     health_status = session.get("health_status")
 
-    # SOLUTIONS
+    
     if health_status == "Weak Hair":
         natural = ["Onion Juice", "Castor Oil", "Aloe Vera"]
         chemical = ["Anti Hair Fall Shampoo", "Hair Growth Serum"]
@@ -237,7 +237,7 @@ def diet():
     return render_template("diet.html")
 
 
-# ---------------- NO CACHE ----------------
+
 @app.after_request
 def add_header(response):
     response.cache_control.no_store = True
