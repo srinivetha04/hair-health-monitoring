@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>AI Hair Health Report</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Poppins;
+background:#e8fff6;
+display:flex;
+justify-content:center;
+}
+
+.container{
+width:794px;
+min-height:1123px;
+background:white;
+padding:20px;
+border-radius:10px;
+margin:10px;
+}
+
+/* HEADER */
+h1{
+text-align:center;
+color:#0f5132;
+margin-bottom:5px;
+}
+
+.username{
+text-align:center;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+/* TOP */
+.top{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:60px;
+margin-bottom:10px;
+flex-wrap:wrap;
+}
+
+img{
+width:160px;
+height:160px;
+border-radius:10px;
+object-fit:cover;
+}
+
+/* SCORE */
+.score-wrapper{
+position:relative;
+width:130px;
+height:130px;
+}
+
+svg{transform:rotate(-90deg);}
+
+circle{
+fill:none;
+stroke-width:10;
+}
+
+.bg{stroke:#eee;}
+.progress{stroke:#2e7d32;}
+
+.score-text{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:24px;
+font-weight:bold;
+}
+
+.health{
+text-align:center;
+margin-top:5px;
+font-weight:bold;
+}
+
+/* SECTION */
+.section{
+margin-top:10px;
+background:#f6fff9;
+padding:10px;
+border-radius:8px;
+}
+
+.section h3{
+text-align:center;
+margin-bottom:5px;
+}
+
+/* BADGE */
+.badge{
+background:#4caf50;
+color:white;
+padding:5px 12px;
+border-radius:20px;
+}
+
+/* GRID */
+.triple{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:10px;
+}
+
+/* CHART */
+canvas{
+width:100%!important;
+height:320px!important;
+}
+
+button{
+margin:10px auto;
+display:block;
+padding:8px 18px;
+background:#2e7d32;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container" id="report">
+
+<h1>AI Hair Health Monitoring System</h1>
+<div class="username">{{ username }} Report</div>
+
+<div class="top">
+
+<img src="{{ url_for('static', filename=result_image) }}">
+
+<div>
+<div class="score-wrapper">
+<svg width="130" height="130">
+<circle class="bg" cx="65" cy="65" r="50"/>
+<circle id="progress" class="progress" cx="65" cy="65" r="50"/>
+</svg>
+<div id="score" class="score-text">0</div>
+</div>
+
+<div id="health" class="health"></div>
+</div>
+
+</div>
+
+<!-- HAIR PROBLEM -->
+<div class="section">
+<h3>Hair Problem</h3>
+<div id="problems" style="text-align:center;"></div>
+</div>
+
+<!-- SOLUTIONS -->
+<div class="section">
+
+<h3>Solutions & Diet</h3>
+
+<div class="triple">
+
+<div>
+<h4>🌿 Natural</h4>
+<ul id="natural"></ul>
+</div>
+
+<div>
+<h4>🧴 Chemical</h4>
+<ul id="chemical"></ul>
+</div>
+
+<div>
+<h4>🥗 Diet</h4>
+<ul id="diet"></ul>
+</div>
+
+</div>
+
+</div>
+
+<!-- CHART -->
+<div class="section">
+<h3>Analysis</h3>
+<canvas id="hairChart"></canvas>
+</div>
+
+<button onclick="downloadReport()">Download Report</button>
+
+</div>
+
+<script>
+
+/* ✅ USE BACKEND DATA */
+let score = {{ score }};
+let hairType = "{{ health_status }}";
+
+let scoreText=document.getElementById("score");
+let health=document.getElementById("health");
+let problems=document.getElementById("problems");
+let natural=document.getElementById("natural");
+let chemical=document.getElementById("chemical");
+let diet=document.getElementById("diet");
+let circle=document.getElementById("progress");
+
+let radius=50;
+let circumference=2*Math.PI*radius;
+circle.style.strokeDasharray=circumference;
+
+let chart;
+
+/* 🔥 MAIN LOGIC */
+function generateScore(){
+
+/* WEAK */
+if(hairType=="Weak Hair"){
+
+health.innerText="Weak Hair";
+
+problems.innerHTML='<span class="badge">Low Hair Density</span>';
+
+natural.innerHTML="<li>Onion Juice</li><li>Castor Oil Massage</li><li>Aloe Vera</li>";
+
+chemical.innerHTML="<li>Anti Hair Fall Shampoo</li><li>Hair Growth Serum</li>";
+
+diet.innerHTML="<li>Eggs</li><li>Spinach</li><li>Almonds</li>";
+
+}
+
+/* MODERATE */
+else if(hairType=="Moderate Hair"){
+
+health.innerText="Moderate Hair";
+
+problems.innerHTML='<span class="badge">Slight Hair Thinning</span>';
+
+natural.innerHTML="<li>Coconut Oil</li><li>Fenugreek Pack</li>";
+
+chemical.innerHTML="<li>Mild Shampoo</li><li>Conditioner</li>";
+
+diet.innerHTML="<li>Fruits</li><li>Milk</li><li>Vegetables</li>";
+
+}
+
+/* HEALTHY */
+else{
+
+health.innerText="Healthy Hair";
+
+problems.innerHTML='<span class="badge">No Major Issues</span>';
+
+natural.innerHTML="<li>Weekly Oil Care</li>";
+
+chemical.innerHTML="<li>Regular Shampoo</li>";
+
+diet.innerHTML="<li>Balanced Diet</li><li>Protein Foods</li>";
+
+}
+
+/* SCORE UI */
+scoreText.innerText=score;
+
+let offset=circumference-(circumference*score/100);
+circle.style.strokeDashoffset=offset;
+
+/* 🔥 SAFE CHART DATA */
+let data=[
+Math.max(100-score,10),
+Math.max(95-score,10),
+Math.max(90-score,10),
+Math.max(85-score,10),
+Math.max(92-score,10)
+];
+
+updateChart(data);
+}
+
+/* CHART */
+function updateChart(data){
+
+let ctx=document.getElementById("hairChart").getContext("2d");
+
+if(chart) chart.destroy();
+
+chart=new Chart(ctx,{
+type:"bar",
+data:{
+labels:["Hair Fall","Dandruff","Dryness","Split Ends","Frizz"],
+datasets:[{
+label:"Hair Analysis",
+data:data,
+backgroundColor:[
+"#4CAF50",
+"#FF9800",
+"#2196F3",
+"#9C27B0",
+"#E91E63"
+]
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+plugins:{legend:{display:false}},
+scales:{
+y:{beginAtZero:true,max:100}
+}
+}
+});
+}
+
+/* PDF FIX */
+function downloadReport(){
+
+let button=document.querySelector("button");
+button.style.display="none";
+
+html2pdf().set({
+margin:0,
+filename:'Hair_Report.pdf',
+html2canvas:{scale:2,scrollY:0},
+jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+pagebreak:{mode:['avoid-all']}
+})
+.from(document.getElementById("report"))
+.save()
+.then(()=>{
+button.style.display="block";
+});
+
+}
+
+window.onload=generateScore;
+
+</script>
+
+</body>
+</html>

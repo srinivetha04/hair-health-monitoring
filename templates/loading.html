@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analyzing...</title>
+
+    <style>
+        body{
+            margin:0;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            background:linear-gradient(to right,#e8f5e9,#f1f8e9);
+            font-family:Arial;
+        }
+
+        .loader{
+            width:80px;
+            height:80px;
+            border:8px solid #e0e0e0;
+            border-top:8px solid #6fdc6f;
+            border-radius:50%;
+            animation:spin 1s linear infinite;
+        }
+
+        @keyframes spin{
+            0%{ transform:rotate(0deg); }
+            100%{ transform:rotate(360deg); }
+        }
+
+        h2{
+            margin-top:20px;
+            color:#2e7d32;
+        }
+
+        p{
+            color:#555;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="loader"></div>
+<h2>Analyzing Your Hair Health...</h2>
+<p>Please wait while we process your scan</p>
+
+<script>
+    // Redirect to result page after 2 seconds
+    setTimeout(function(){
+        window.location.href = "/result";
+    }, 2000);
+</script>
+
+</body>
+</html>

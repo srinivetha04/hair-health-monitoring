@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  font-family:Arial, sans-serif;
+  background:#f5fff5;
+}
+
+/* HEADER */
+.header{
+  text-align:center;
+  padding:30px 0;
+}
+
+.header h1{
+  margin:0;
+  font-size:36px;
+}
+
+.header p{
+  margin-top:10px;
+  font-size:20px;
+  font-weight:bold;
+  color:#2e7d32;
+}
+
+/* MAIN LAYOUT */
+.main{
+  display:flex;
+  height:calc(100vh - 140px);
+  padding:20px;
+        /* vertical align */
+  gap:20px;
+
+}
+
+/* LEFT IMAGE */
+.left{
+  flex:2;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.left img{
+  max-height:90%;
+  width:auto;
+}
+
+/* CENTER CONTENT */
+.center{
+  flex:2;
+  background: linear-gradient(#f5fff5);
+  border-radius:20px;
+  padding:30px;
+  padding-right: 370px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(6px);
+}
+
+.center h2{
+  margin-top:0;
+  color:#1b5e20;
+}
+
+.center ul{
+  margin-top:20px;
+  font-size:17px;
+  line-height:1.9;
+}
+
+/* RIGHT BUTTON PANEL */
+.right-panel{
+    position:absolute;
+    right:60px;
+    top:180px;
+    text-align:center;
+}
+
+.button-panel{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    margin-top:20px;
+}
+
+.button-panel button{
+    width:220px;
+    padding:15px;
+    border:none;
+    border-radius:40px;
+    background:linear-gradient(145deg,#9cff9c,#6fdc6f);
+    box-shadow:0 6px 20px rgba(0,255,0,0.4);
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.button-panel button:hover{
+    transform:scale(1.05);
+
+@keyframes glow{
+  from{box-shadow:0 0 10px #6f6}
+  to{box-shadow:0 0 25px #3c3}
+}}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>Hair Health Monitoring System</h1>
+  <p>Welcome {{ name }}</p>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LEFT IMAGE -->
+  <div class="left">
+    <img src="{{ url_for('static', filename='images/hair_bg1.png') }}">
+  </div>
+
+  <!-- CENTER CONTENT -->
+  <div class="center">
+    <h2>Why Hair Health Monitoring?</h2>
+    <ul>
+      <li>Early detection of hair and scalp problems</li>
+      <li>Personalized hair care suggestions</li>
+      <li>Prevention of severe hair loss</li>
+      <li>Improved scalp and hair strength</li>
+      <li>Correct product and diet recommendations</li>
+      <li>Boosts confidence and self-care awareness</li>
+    </ul>
+  </div>
+
+  <!-- RIGHT BUTTONS -->
+ <div class="right-panel">
+    
+
+    <div class="button-panel">
+        <a href="/scan"><button>Scan Hair</button></a>
+        <a href="/result"><button>Result Score</button></a>
+        <a href="/chemical"><button>Chemical product</button></a>
+        <a href="/natural"><button>Natural product</button></a>
+        <a href="/diet"><button>Diet Plan</button></a>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>
