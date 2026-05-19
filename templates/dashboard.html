@@ -11,7 +11,6 @@ body{
   background:#f5fff5;
 }
 
-/* HEADER */
 .header{
   text-align:center;
   padding:30px 0;
@@ -29,17 +28,14 @@ body{
   color:#2e7d32;
 }
 
-/* MAIN LAYOUT */
 .main{
   display:flex;
   height:calc(100vh - 140px);
   padding:20px;
-        /* vertical align */
   gap:20px;
 
 }
 
-/* LEFT IMAGE */
 .left{
   flex:2;
   display:flex;
@@ -52,7 +48,6 @@ body{
   width:auto;
 }
 
-/* CENTER CONTENT */
 .center{
   flex:2;
   background: linear-gradient(#f5fff5);
@@ -74,7 +69,6 @@ body{
   line-height:1.9;
 }
 
-/* RIGHT BUTTON PANEL */
 .right-panel{
     position:absolute;
     right:60px;
@@ -113,21 +107,17 @@ body{
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <h1>Hair Health Monitoring System</h1>
   <p>Welcome {{ name }}</p>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- LEFT IMAGE -->
   <div class="left">
     <img src="{{ url_for('static', filename='images/hair_bg1.png') }}">
   </div>
 
-  <!-- CENTER CONTENT -->
   <div class="center">
     <h2>Why Hair Health Monitoring?</h2>
     <ul>
@@ -140,7 +130,6 @@ body{
     </ul>
   </div>
 
-  <!-- RIGHT BUTTONS -->
  <div class="right-panel">
     
 
@@ -152,8 +141,6 @@ body{
         <a href="/diet"><button>Diet Plan</button></a>
     </div>
 </div>
-
-
 
 
 </body>
