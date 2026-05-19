@@ -26,7 +26,6 @@ border-radius:10px;
 margin:10px;
 }
 
-/* HEADER */
 h1{
 text-align:center;
 color:#0f5132;
@@ -39,7 +38,6 @@ font-weight:bold;
 margin-bottom:10px;
 }
 
-/* TOP */
 .top{
 display:flex;
 justify-content:center;
@@ -56,7 +54,6 @@ border-radius:10px;
 object-fit:cover;
 }
 
-/* SCORE */
 .score-wrapper{
 position:relative;
 width:130px;
@@ -88,7 +85,7 @@ margin-top:5px;
 font-weight:bold;
 }
 
-/* SECTION */
+
 .section{
 margin-top:10px;
 background:#f6fff9;
@@ -101,7 +98,7 @@ text-align:center;
 margin-bottom:5px;
 }
 
-/* BADGE */
+
 .badge{
 background:#4caf50;
 color:white;
@@ -109,14 +106,14 @@ padding:5px 12px;
 border-radius:20px;
 }
 
-/* GRID */
+
 .triple{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
 gap:10px;
 }
 
-/* CHART */
+
 canvas{
 width:100%!important;
 height:320px!important;
@@ -162,13 +159,13 @@ cursor:pointer;
 
 </div>
 
-<!-- HAIR PROBLEM -->
+
 <div class="section">
 <h3>Hair Problem</h3>
 <div id="problems" style="text-align:center;"></div>
 </div>
 
-<!-- SOLUTIONS -->
+
 <div class="section">
 
 <h3>Solutions & Diet</h3>
@@ -194,7 +191,7 @@ cursor:pointer;
 
 </div>
 
-<!-- CHART -->
+
 <div class="section">
 <h3>Analysis</h3>
 <canvas id="hairChart"></canvas>
@@ -206,8 +203,8 @@ cursor:pointer;
 
 <script>
 
-/* ✅ USE BACKEND DATA */
-let score = {{ score }};
+
+let score = {{ Score }};
 let hairType = "{{ health_status }}";
 
 let scoreText=document.getElementById("score");
@@ -224,10 +221,10 @@ circle.style.strokeDasharray=circumference;
 
 let chart;
 
-/* 🔥 MAIN LOGIC */
+
 function generateScore(){
 
-/* WEAK */
+
 if(hairType=="Weak Hair"){
 
 health.innerText="Weak Hair";
@@ -242,7 +239,7 @@ diet.innerHTML="<li>Eggs</li><li>Spinach</li><li>Almonds</li>";
 
 }
 
-/* MODERATE */
+
 else if(hairType=="Moderate Hair"){
 
 health.innerText="Moderate Hair";
@@ -257,7 +254,7 @@ diet.innerHTML="<li>Fruits</li><li>Milk</li><li>Vegetables</li>";
 
 }
 
-/* HEALTHY */
+
 else{
 
 health.innerText="Healthy Hair";
@@ -272,13 +269,13 @@ diet.innerHTML="<li>Balanced Diet</li><li>Protein Foods</li>";
 
 }
 
-/* SCORE UI */
+
 scoreText.innerText=score;
 
 let offset=circumference-(circumference*score/100);
 circle.style.strokeDashoffset=offset;
 
-/* 🔥 SAFE CHART DATA */
+
 let data=[
 Math.max(100-score,10),
 Math.max(95-score,10),
@@ -290,7 +287,7 @@ Math.max(92-score,10)
 updateChart(data);
 }
 
-/* CHART */
+
 function updateChart(data){
 
 let ctx=document.getElementById("hairChart").getContext("2d");
@@ -324,7 +321,7 @@ y:{beginAtZero:true,max:100}
 });
 }
 
-/* PDF FIX */
+
 function downloadReport(){
 
 let button=document.querySelector("button");
