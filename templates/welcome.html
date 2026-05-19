@@ -12,7 +12,7 @@ body{
   background-color: #a5ffa5;
 }
 
-/* LEFT IMAGE SECTION */
+
 .left{
   flex:2;
   background-image: url("{{ url_for('static', filename='images/hair_bg1.png') }}");
@@ -26,7 +26,7 @@ body{
   justify-content:center;
 }
 
-/* GLASS OVERLAY */
+
 .overlay{
   background: rgba(0,0,0,0.45);
   padding:50px;
@@ -36,14 +36,14 @@ body{
   max-width:500px;
 }
 
-/* TITLE */
+
 .overlay h1{
   margin:0;
   font-size:44px;
   letter-spacing:1px;
 }
 
-/* SUB TEXT */
+
 .overlay p{
   margin-top:15px;
   font-size:18px;
@@ -51,7 +51,7 @@ body{
   opacity:0.95;
 }
 
-/* RIGHT SECTION */
+
 .right{
   flex:1;
   background:#e4f8e4;
@@ -62,7 +62,7 @@ body{
   padding:40px;
 }
 
-/* CONTINUE BUTTON */
+
 button{
   padding:20px 70px;
   border:none;
@@ -79,7 +79,7 @@ button{
   to{box-shadow:0 0 30px #3c3}
 }
 
-/* SMALL TEXT */
+
 .right p{
   margin-top:25px;
   font-size:15px;
@@ -90,7 +90,7 @@ button{
 
 <body>
 
-<!-- LEFT SIDE -->
+
 <div class="left">
   <div class="overlay">
     <h1>Hair Health Monitoring System</h1>
@@ -102,7 +102,7 @@ button{
   </div>
 </div>
 
-<!-- RIGHT SIDE -->
+
 <div class="right">
   <button onclick="location.href='/login'">→ Continue</button>
   <p>AI-Based Hair Analysis Platform</p>
