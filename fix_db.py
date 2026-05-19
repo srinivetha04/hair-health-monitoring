@@ -1,11 +1,11 @@
 import sqlite3
 
 try:
-    # Connect database
+    
     conn = sqlite3.connect("hair.db")
     c = conn.cursor()
 
-    # Add image column if not exists
+
     c.execute("ALTER TABLE users ADD COLUMN image TEXT")
 
     print("✅ Image column added successfully")
